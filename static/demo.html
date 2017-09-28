@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <!-- <link rel="stylesheet" href="file://E:/bootstrap/css/bootstrap.min.css"> -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+    <style>
+    .audio-button{
+        color: white !important;
+        cursor: pointer;
+    }
+    </style>
+</head>
+
+<body>
+    <div class="row">
+        <div class="col-md-4">
+
+        </div>
+        <div class="col-md-4">
+
+            <div class="card text-center">
+                <div class="card-block">
+                    <h4 class="card-title">Web Audio Dashboard</h4>
+                    <h6 class="card-subtitle mb-2 text-muted">Control Web Audio API</h6>
+                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                    <a onclick="" class="btn audio-button btn-primary" >Start</a>
+                    <a onclick="stopSource()" class="btn audio-button btn-danger">Stop</a>
+                </div>
+            </div>
+
+        </div>
+        <div class="col-md-4"></div>
+    </div>
+
+
+    <audio id="audio-player" src=""></audio>
+
+    <script>
+
+        window.addEventListener('load', init);
+
+        var source;
+        var audioPlayer;
+
+        function init(){
+        audioPlayer = document.querySelector('#audio-player');
+        var audioContext = new (window.AudioContext || window.webkitAudioContext);
+
+        var oscillator = audioContext.createOscillator();
+        var gainNode = audioContext.createGain();
+        var analyser = audioContext.createAnalyser();
+        var distortion = audioContext.createWaveShaper();
+        var biquadFilter = audioContext.createBiquadFilter();
+
+        
+
+        oscillator.connect(gainNode);
+        gainNode.connect(audioContext.destination);
+
+        console.log(oscillator)
+
+        var constraints = {
+            audio: true
+        }
+
+        navigator.mediaDevices.getUserMedia(constraints)
+        .then(function(stream) {
+            source = audioContext.createMediaStreamSource(stream)
+
+            source.connect(analyser);
+            analyser.connect(distortion);
+            distortion.connect(biquadFilter);
+            gainNode.gain.value = 50;
+            biquadFilter.connect(gainNode);
+
+            
+            audioPlayer.src = window.URL.createObjectURL(stream);
+            console.log(audioPlayer)
+        }).catch(function(err) {
+            console.log(err)
+        });
+        }
+
+        
+        function stopSource(){
+            console.log('STOP')
+        }
+
+
+
+
+
+    </script>
+
+
+</body>
+
+</html>

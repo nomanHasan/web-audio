@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <!-- <link rel="stylesheet" href="file://E:/bootstrap/css/bootstrap.min.css"> -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ"
+        crossorigin="anonymous">
+    <style>
+        .audio-button {
+            color: white !important;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="row">
+        <div class="col-md-4">
+
+        </div>
+        <div class="col-md-4">
+
+            <div class="card text-center">
+                <div class="card-block">
+                    <h4 class="card-title">Web Audio Dashboard</h4>
+                    <h6 class="card-subtitle mb-2 text-muted">Control Web Audio API</h6>
+                    <p class="card-text">
+
+                        <input type="file" accept="audio/*" capture id="recorder">
+                        <audio id="player" controls></audio>
+
+
+                    </p>
+                    <a onclick="" class="btn audio-button btn-primary">Start</a>
+                    <a onclick="stopSource()" class="btn audio-button btn-danger">Stop</a>
+                </div>
+            </div>
+
+        </div>
+        <div class="col-md-4"></div>
+    </div>
+
+
+    <audio id="audio-player" src=""></audio>
+
+    <script>
+        var recorder = document.getElementById('recorder');
+        var player = document.getElementById('player')
+                            
+        recorder.addEventListener('change', function (e) {
+            var file = e.target.files[0];
+            player.src = URL.createObjectURL(file);
+        });
+    </script>
+
+
+</body>
+
+</html>
